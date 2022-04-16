@@ -32,6 +32,9 @@ class myBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width : double.infinity,
+      height: double.infinity,
+      
       margin: EdgeInsets.fromLTRB(5, 3, 3, 3),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(5.0)),

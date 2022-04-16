@@ -47,3 +47,43 @@ class Assignment1Screen extends StatelessWidget {
         ));
   }
 }
+
+class StatefulTest extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return StatefulTestState();
+  }
+}
+
+// create widgets or screens
+class StatefulTestState extends State<StatefulWidget> {
+  bool isDark = false;
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Scaffold(
+        backgroundColor: isDark ? Colors.black : Colors.white,
+        appBar: AppBar(),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('content',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 20, color: isDark ? Colors.white : Colors.black)),
+            ElevatedButton(
+              child: const Text('change content'),
+              onPressed: () {
+                isDark = !isDark;
+                setState(() {});
+              },
+            ),
+            ElevatedButton(
+              child: const Text('print isDark value'),
+              onPressed: () {},
+            )
+          ],
+        ));
+  }
+}
