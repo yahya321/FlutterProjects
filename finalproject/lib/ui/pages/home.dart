@@ -1,7 +1,9 @@
+import 'package:finalproject/ui/widgets/recommendedCard.dart';
 import 'package:flutter/material.dart';
 import 'package:finalproject/ui/widgets/myAppBar.dart';
 
 import '../../Utilities/routes.dart';
+import '../widgets/FreshCard.dart';
 import '../widgets/myDrawer.dart';
 
 class HomePage extends StatelessWidget {
@@ -22,7 +24,7 @@ class HomePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
                 child: Text(
                   "Bonjour, Emma",
                   style: TextStyle(
@@ -42,7 +44,7 @@ class HomePage extends StatelessWidget {
                 ),
               ),
               Container(
-                  padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                  margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
@@ -59,6 +61,8 @@ class HomePage extends StatelessWidget {
                                   color: Color.fromARGB(255, 138, 138, 138),
                                 ),
                                 hintText: 'Search for recipes',
+                                hintStyle: TextStyle(
+                                    color: Color.fromARGB(255, 138, 138, 138)),
                                 fillColor: Colors.grey,
                                 hoverColor: Colors.grey,
                                 border: InputBorder.none,
@@ -82,7 +86,93 @@ class HomePage extends StatelessWidget {
                               ),
                               onPressed: () {},
                             )),
-                      ]))
+                      ])),
+              Container(
+                margin: EdgeInsets.fromLTRB(0, 20, 0, 10),
+                child: Column(children: [
+                  Row(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(bottom: 10),
+                        child: Text(
+                          "Today's Fresh Recipes",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Spacer(),
+                      Container(
+                          child: TextButton(
+                        child: Text(
+                          'See All',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.orange[800],
+                          ),
+                        ),
+                        onPressed: () {},
+                      )),
+                    ],
+                  ),
+                  Container(
+                    width: double.infinity,
+                    height: 240,
+                    child: ListView.builder(
+                        itemCount: 5,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (BuildContext context, int index) {
+                          return FreshCard();
+                        }),
+                  )
+                ]),
+              ),
+              Container(
+                margin: EdgeInsets.fromLTRB(0, 20, 0, 10),
+                child: Column(children: [
+                  Row(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(bottom: 10),
+                        child: Text(
+                          "Recommended",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Spacer(),
+                      Container(
+                          child: TextButton(
+                        child: Text(
+                          'See All',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.orange[800],
+                          ),
+                        ),
+                        onPressed: () {},
+                      )),
+                    ],
+                  ),
+                  Container(
+                    width: double.infinity,
+                    height: 233,
+                    child: ListView.builder(
+                        itemCount: 5,
+                        scrollDirection: Axis.vertical,
+                        itemBuilder: (BuildContext context, int index) {
+                          return RecommendedCard();
+                        }),
+                  )
+                ]),
+              ),
             ],
           ),
         ));

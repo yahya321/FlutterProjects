@@ -16,29 +16,34 @@ class DrawerScreen extends StatelessWidget {
                   children: [
                     Column(children: [
                       CircleAvatar(
-                        backgroundImage: AssetImage("assets/images/Logo.png"),
-                        radius: 25,
+                        backgroundImage:
+                            AssetImage("assets/images/Ellipse3.png"),
+                        radius: 30,
                       )
                     ]),
                     Container(
                         padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            Container(
+                                child: Text(
                               "Emma Holmes",
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 14,
                               ),
-                            ),
-                            Text(
-                              "View Profile",
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 12,
-                              ),
-                            ),
+                            )),
+                            Container(
+                                margin: EdgeInsets.only(top: 10),
+                                child: Text(
+                                  "View Profile",
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 12,
+                                  ),
+                                )),
                           ],
                         )),
                   ],
