@@ -19,9 +19,7 @@ class HomePage extends StatelessWidget {
         drawer: DrawerScreen(),
         body: Container(
           padding: EdgeInsets.fromLTRB(20, 15, 15, 20),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: ListView(
             children: [
               Container(
                 margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
@@ -163,7 +161,7 @@ class HomePage extends StatelessWidget {
                   ),
                   Container(
                     width: double.infinity,
-                    height: 233,
+                    height: 500,
                     child: ListView.builder(
                         itemCount: 5,
                         scrollDirection: Axis.vertical,

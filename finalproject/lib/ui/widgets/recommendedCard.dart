@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../Utilities/routes.dart';
 
 class RecommendedCard extends StatelessWidget {
   @override
@@ -9,7 +10,8 @@ class RecommendedCard extends StatelessWidget {
       child: InkWell(
           splashColor: Colors.blue.withAlpha(30),
           onTap: () {
-            debugPrint('Card tapped.');
+            Navigator.popUntil(context, ModalRoute.withName(MyRoutes.homePage));
+            Navigator.pushNamed(context, MyRoutes.mealDescreptionPage);
           },
           child: cardLayout),
     );
@@ -28,9 +30,9 @@ class RecommendedCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image(
-              image: AssetImage("assets/images/Image.png"),
-              width: 75,
-              height: 45,
+              image: AssetImage("assets/images/frenshtoast2.png"),
+              width: 120,
+              height: 120,
             )
           ],
         ),
@@ -137,10 +139,10 @@ class RecommendedCard extends StatelessWidget {
                 )),
           ],
         ),
+        Spacer(),
         Column(
           children: [
             Container(
-                margin: EdgeInsets.only(left: 50),
                 child: IconButton(
                     onPressed: () {},
                     icon: IconButton(

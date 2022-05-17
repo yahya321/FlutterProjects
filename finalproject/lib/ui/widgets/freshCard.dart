@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../Utilities/routes.dart';
 
 class FreshCard extends StatelessWidget {
   @override
@@ -9,7 +10,8 @@ class FreshCard extends StatelessWidget {
       child: InkWell(
           splashColor: Colors.blue.withAlpha(30),
           onTap: () {
-            debugPrint('Card tapped.');
+            Navigator.popUntil(context, ModalRoute.withName(MyRoutes.homePage));
+            Navigator.pushNamed(context, MyRoutes.mealDescreptionPage);
           },
           child: Stack(
             children: [
@@ -17,7 +19,7 @@ class FreshCard extends StatelessWidget {
               Container(
                   margin: EdgeInsets.fromLTRB(55, 0, 0, 0),
                   child: Image(
-                    image: AssetImage("assets/images/Image.png"),
+                    image: AssetImage("assets/images/frenshtoast2.png"),
                     width: 150,
                     height: 130,
                   )),
@@ -40,14 +42,12 @@ class FreshCard extends StatelessWidget {
         Container(
             margin: EdgeInsets.only(bottom: 50),
             child: IconButton(
-                onPressed: () {},
-                icon: IconButton(
-                  icon: const Icon(
-                    Icons.favorite_outline,
-                    color: Color.fromARGB(255, 134, 134, 134),
-                  ),
-                  onPressed: () {},
-                ))),
+              onPressed: () {},
+              icon: const Icon(
+                Icons.favorite_outline,
+                color: Color.fromARGB(255, 134, 134, 134),
+              ),
+            )),
         Container(
           margin: EdgeInsets.only(bottom: 5),
           child: Text(

@@ -1,5 +1,8 @@
+import 'package:finalproject/ui/pages/favorites.dart';
 import 'package:finalproject/ui/pages/home.dart';
 import 'package:finalproject/ui/pages/login.dart';
+import 'package:finalproject/ui/pages/mealDescreption.dart';
+import 'package:finalproject/ui/pages/recently.dart';
 import 'package:finalproject/ui/pages/register.dart';
 import 'package:finalproject/ui/pages/splash.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +39,9 @@ class MyApp extends StatelessWidget {
         MyRoutes.loginPage: (context) => LoginPage(),
         MyRoutes.registerPage: (context) => RegisterPage(),
         MyRoutes.homePage: (context) => HomePage(),
+        MyRoutes.mealDescreptionPage: (context) => MealDescreptionPage(),
+        MyRoutes.favoritesPage: (context) => FavoritesPage(),
+        MyRoutes.recentlyPage: (context) => RecentlyPage(),
       },
     );
   }
