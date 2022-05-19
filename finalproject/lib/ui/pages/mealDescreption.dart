@@ -13,7 +13,7 @@ class MealDescreptionPage extends StatelessWidget {
     return Scaffold(
         backgroundColor: Colors.black,
         resizeToAvoidBottomInset: false,
-        appBar: MyAppBar.build(),
+        appBar: NavBar(),
         body: Container(
           padding: EdgeInsets.fromLTRB(20, 15, 15, 20),
           child: ListView(

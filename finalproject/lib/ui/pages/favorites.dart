@@ -15,7 +15,7 @@ class FavoritesPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.black,
       resizeToAvoidBottomInset: false,
-      appBar: MyAppBar.build(),
+      appBar: NavBar(),
       drawer: DrawerScreen(),
       body: Container(
         padding: EdgeInsets.fromLTRB(20, 15, 15, 20),

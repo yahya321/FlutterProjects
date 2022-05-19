@@ -6,4 +6,6 @@ class MyRoutes {
   static String mealDescreptionPage = '/mealDescreptionPage';
   static String favoritesPage = '/favoritesPage';
   static String recentlyPage = '/recentlyPage';
+  static String notificationPage = '/notificationPage';
+  static String settingsPage = '/settingsPage';
 }

@@ -6,7 +6,12 @@ import '../../Utilities/routes.dart';
 import '../widgets/FreshCard.dart';
 import '../widgets/myDrawer.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   TextEditingController searchController = TextEditingController();
 
   @override
@@ -15,7 +20,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
         backgroundColor: Colors.black,
         resizeToAvoidBottomInset: false,
-        appBar: MyAppBar.build(),
+        appBar: NavBar(),
         drawer: DrawerScreen(),
         body: Container(
           padding: EdgeInsets.fromLTRB(20, 15, 15, 20),

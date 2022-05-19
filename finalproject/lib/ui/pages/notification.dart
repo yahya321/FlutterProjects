@@ -1,3 +1,4 @@
+import 'package:finalproject/ui/widgets/notificationCard.dart';
 import 'package:finalproject/ui/widgets/recommendedCard.dart';
 import 'package:flutter/material.dart';
 import 'package:finalproject/ui/widgets/myAppBar.dart';
@@ -6,7 +7,7 @@ import '../../Utilities/routes.dart';
 import '../widgets/FreshCard.dart';
 import '../widgets/myDrawer.dart';
 
-class RecentlyPage extends StatelessWidget {
+class NotificationPage extends StatelessWidget {
   TextEditingController searchController = TextEditingController();
 
   @override
@@ -19,19 +20,38 @@ class RecentlyPage extends StatelessWidget {
       drawer: DrawerScreen(),
       body: Container(
         padding: EdgeInsets.fromLTRB(20, 15, 15, 20),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        child: ListView(children: [
           Container(
-            padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-            child: Text(
-              "Recently Viewed",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20,
+              child: Row(
+            children: [
+              Container(
+                margin: EdgeInsets.only(bottom: 10),
+                child: Text(
+                  "Notifications",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
-            ),
-          ),
+              Spacer(),
+              Container(
+                  child: TextButton(
+                child: Text(
+                  'Mark All As Read',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.orange[800],
+                  ),
+                ),
+                onPressed: () {},
+              )),
+            ],
+          )),
           Container(
-              margin: EdgeInsets.fromLTRB(0, 20, 0, 30),
+              margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
@@ -47,7 +67,7 @@ class RecentlyPage extends StatelessWidget {
                               Icons.search,
                               color: Color.fromARGB(255, 138, 138, 138),
                             ),
-                            hintText: 'Search for recipes',
+                            hintText: 'Search using keywords',
                             hintStyle: TextStyle(
                                 color: Color.fromARGB(255, 138, 138, 138)),
                             fillColor: Colors.grey,
@@ -75,19 +95,18 @@ class RecentlyPage extends StatelessWidget {
                         )),
                   ])),
           Container(
+            margin: EdgeInsets.fromLTRB(0, 20, 0, 10),
             width: double.infinity,
             height: 624,
-            margin: EdgeInsets.only(bottom: 10),
             child: ListView.builder(
-                itemCount: 20,
+                itemCount: 5,
                 scrollDirection: Axis.vertical,
                 itemBuilder: (BuildContext context, int index) {
-                  return RecommendedCard();
+                  return NotificationCard();
                 }),
           )
         ]),
       ),
     );
-    ;
   }
 }

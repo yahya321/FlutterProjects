@@ -130,9 +130,9 @@ class _DrawerScreenState extends State<DrawerScreen> {
             textColor: Color.fromARGB(255, 138, 138, 138),
             iconColor: Color.fromARGB(255, 138, 138, 138),
             onTap: () {
-              unSelectALL();
-              settingsSelected = true;
-              setState(() {});
+              Navigator.popUntil(
+                  context, ModalRoute.withName(MyRoutes.homePage));
+              Navigator.pushNamed(context, MyRoutes.settingsPage);
             },
           ),
           ListTile(
