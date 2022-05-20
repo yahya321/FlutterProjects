@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
     // TODO: implement build
     return Scaffold(
         backgroundColor: Colors.black,
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
         appBar: NavBar(),
         drawer: DrawerScreen(),
         body: Container(

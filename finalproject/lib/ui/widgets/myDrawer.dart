@@ -1,20 +1,12 @@
+import 'package:finalproject/providers/drawer_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../Utilities/routes.dart';
+import 'AuthAlert.dart';
 
-class DrawerScreen extends StatefulWidget {
-  @override
-  State<DrawerScreen> createState() => _DrawerScreenState();
-}
-
-class _DrawerScreenState extends State<DrawerScreen> {
-  bool homeSelected = true;
-  bool favoritesSelected = false;
-  bool recentlySelected = false;
-  bool settingsSelected = false;
-  bool aboutSelected = false;
-  bool helpSelected = false;
-  bool signOutSelected = false;
+class DrawerScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -69,14 +61,13 @@ class _DrawerScreenState extends State<DrawerScreen> {
               'Home',
               style: TextStyle(fontSize: 14),
             ),
-            selected: homeSelected,
+            selected: Provider.of<DrawerProvider>(context).homeSelected,
             selectedColor: Colors.orange[800],
             textColor: Color.fromARGB(255, 138, 138, 138),
             iconColor: Color.fromARGB(255, 138, 138, 138),
             onTap: () {
-              unSelectALL();
-              homeSelected = true;
-              setState(() {});
+              Provider.of<DrawerProvider>(context, listen: false)
+                  .madeSelected(1);
               Navigator.popUntil(
                   context, ModalRoute.withName(MyRoutes.homePage));
             },
@@ -87,14 +78,13 @@ class _DrawerScreenState extends State<DrawerScreen> {
               'Favorites',
               style: TextStyle(fontSize: 14),
             ),
-            selected: favoritesSelected,
+            selected: Provider.of<DrawerProvider>(context).favoritesSelected,
             selectedColor: Colors.orange[800],
             textColor: Color.fromARGB(255, 138, 138, 138),
             iconColor: Color.fromARGB(255, 138, 138, 138),
             onTap: () {
-              unSelectALL();
-              favoritesSelected = true;
-              setState(() {});
+              Provider.of<DrawerProvider>(context, listen: false)
+                  .madeSelected(2);
               Navigator.popUntil(
                   context, ModalRoute.withName(MyRoutes.homePage));
               Navigator.pushNamed(context, MyRoutes.favoritesPage);
@@ -106,14 +96,13 @@ class _DrawerScreenState extends State<DrawerScreen> {
               'Recently Viewed',
               style: TextStyle(fontSize: 14),
             ),
-            selected: recentlySelected,
+            selected: Provider.of<DrawerProvider>(context).recentlySelected,
             selectedColor: Colors.orange[800],
             textColor: Color.fromARGB(255, 138, 138, 138),
             iconColor: Color.fromARGB(255, 138, 138, 138),
             onTap: () {
-              unSelectALL();
-              recentlySelected = true;
-              setState(() {});
+              Provider.of<DrawerProvider>(context, listen: false)
+                  .madeSelected(3);
               Navigator.popUntil(
                   context, ModalRoute.withName(MyRoutes.homePage));
               Navigator.pushNamed(context, MyRoutes.recentlyPage);
@@ -125,11 +114,13 @@ class _DrawerScreenState extends State<DrawerScreen> {
               'Settings',
               style: TextStyle(fontSize: 14),
             ),
-            selected: settingsSelected,
+            selected: Provider.of<DrawerProvider>(context).settingsSelected,
             selectedColor: Colors.orange[800],
             textColor: Color.fromARGB(255, 138, 138, 138),
             iconColor: Color.fromARGB(255, 138, 138, 138),
             onTap: () {
+              Provider.of<DrawerProvider>(context, listen: false)
+                  .madeSelected(4);
               Navigator.popUntil(
                   context, ModalRoute.withName(MyRoutes.homePage));
               Navigator.pushNamed(context, MyRoutes.settingsPage);
@@ -141,15 +132,11 @@ class _DrawerScreenState extends State<DrawerScreen> {
               'About Us',
               style: TextStyle(fontSize: 14),
             ),
-            selected: aboutSelected,
+            selected: false,
             selectedColor: Colors.orange[800],
             textColor: Color.fromARGB(255, 138, 138, 138),
             iconColor: Color.fromARGB(255, 138, 138, 138),
-            onTap: () {
-              unSelectALL();
-              aboutSelected = true;
-              setState(() {});
-            },
+            onTap: () {},
           ),
           ListTile(
             leading: Icon(Icons.help_outline),
@@ -157,15 +144,11 @@ class _DrawerScreenState extends State<DrawerScreen> {
               'Help',
               style: TextStyle(fontSize: 14),
             ),
-            selected: helpSelected,
+            selected: false,
             selectedColor: Colors.orange[800],
             textColor: Color.fromARGB(255, 138, 138, 138),
             iconColor: Color.fromARGB(255, 138, 138, 138),
-            onTap: () {
-              unSelectALL();
-              helpSelected = true;
-              setState(() {});
-            },
+            onTap: () {},
           ),
           ListTile(
             leading: Icon(Icons.exit_to_app),
@@ -173,26 +156,22 @@ class _DrawerScreenState extends State<DrawerScreen> {
               'Sign Out',
               style: TextStyle(fontSize: 14),
             ),
-            selected: signOutSelected,
+            selected: false,
             selectedColor: Colors.orange[800],
             textColor: Color.fromARGB(255, 138, 138, 138),
             iconColor: Color.fromARGB(255, 138, 138, 138),
             onTap: () {
-              unSelectALL();
-              signOutSelected = true;
-              setState(() {});
+              FirebaseAuth.instance.signOut();
+              Navigator.popUntil(
+                  context, ModalRoute.withName(MyRoutes.splashPage));
+              showDialog<String>(
+                  context: context,
+                  builder: (BuildContext context) => AuthAlert(
+                        title: 'Logout Succsses',
+                        content: 'See you next time',
+                      ));
             },
           ),
         ]));
-  }
-
-  unSelectALL() {
-    homeSelected = false;
-    favoritesSelected = false;
-    recentlySelected = false;
-    settingsSelected = false;
-    aboutSelected = false;
-    helpSelected = false;
-    signOutSelected = false;
   }
 }
