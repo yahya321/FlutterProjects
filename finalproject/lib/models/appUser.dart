@@ -1,15 +1,17 @@
 class AppUser {
-  String? id;
+  static String? id;
   String name;
   String email;
   String password;
-  AppUser(
-      {this.id,
-      required this.name,
-      required this.email,
-      required this.password});
+  static List<String> favorites = [];
+
+  AppUser({required this.name, required this.email, required this.password});
   toMap() {
-    return {'name': name, "email": email, "password": password};
+    return {
+      'name': name,
+      "email": email,
+      "password": password,
+    };
   }
 
   setName(String name) {

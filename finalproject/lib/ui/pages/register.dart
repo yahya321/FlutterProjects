@@ -1,4 +1,5 @@
 import 'package:finalproject/models/appUser.dart';
+import 'package:finalproject/providers/firestore_provider.dart';
 import 'package:finalproject/ui/widgets/AuthAlert.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -161,14 +162,21 @@ class RegisterPage extends StatelessWidget {
                 child: MaterialButton(
                   minWidth: double.infinity,
                   height: 60,
-                  onPressed: () {
+                  onPressed: () async {
                     if (formKey.currentState!.validate()) {
                       AppUser user = new AppUser(
                           name: nameController.text,
                           email: emailController.text,
                           password: passwordController.text);
-                      Provider.of<AuthProvider>(context, listen: false)
+
+                      String? userID = await Provider.of<AuthProvider>(context,
+                              listen: false)
                           .createNewAccount(user);
+                      AppUser.id = userID;
+
+                      Provider.of<FirestoreProvider>(context, listen: false)
+                          .addUserToFirestore(user);
+
                       Navigator.popUntil(
                           context, ModalRoute.withName(MyRoutes.splashPage));
                       Navigator.pushNamed(context, MyRoutes.loginPage);

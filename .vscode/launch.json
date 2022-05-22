@@ -5,6 +5,12 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "finalproject",
+            "type": "dart",
+            "request": "launch",
+            "program": "finalproject/lib/main.dart"
+        },
+        {
             "name": "assignment1",
             "cwd": "assignment1",
             "request": "launch",

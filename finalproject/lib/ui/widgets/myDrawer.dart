@@ -68,8 +68,7 @@ class DrawerScreen extends StatelessWidget {
             onTap: () {
               Provider.of<DrawerProvider>(context, listen: false)
                   .madeSelected(1);
-              Navigator.popUntil(
-                  context, ModalRoute.withName(MyRoutes.homePage));
+              Navigator.pushNamed(context, MyRoutes.homePage);
             },
           ),
           ListTile(

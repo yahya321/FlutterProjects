@@ -3,12 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:finalproject/ui/widgets/myAppBar.dart';
 
 import '../../Utilities/routes.dart';
+import '../../models/Meal.dart';
 import '../widgets/FreshCard.dart';
 import '../widgets/myDrawer.dart';
 
 class RecentlyPage extends StatelessWidget {
   TextEditingController searchController = TextEditingController();
-
+  Meal meal = new Meal(
+      id: '1',
+      calories: '120 Calories',
+      imageName: 'muffins.png',
+      isRecommended: true,
+      isToday: false,
+      name: 'Blueberry Muffins',
+      rate: 3,
+      serving: '1 Serving',
+      timeCook: '10 mins',
+      type: 'Breakfast');
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -82,7 +93,7 @@ class RecentlyPage extends StatelessWidget {
                 itemCount: 20,
                 scrollDirection: Axis.vertical,
                 itemBuilder: (BuildContext context, int index) {
-                  return RecommendedCard();
+                  return RecommendedCard(meal: meal);
                 }),
           )
         ]),

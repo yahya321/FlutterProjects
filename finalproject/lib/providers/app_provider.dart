@@ -12,7 +12,7 @@ class AppProvider {
         .createNewAccount(appUser);
 
     if (id != null) {
-      appUser.id = id;
+      AppUser.id = id;
       Provider.of<FirestoreProvider>(context, listen: false)
           .addUserToFirestore(appUser);
     }
