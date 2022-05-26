@@ -4,6 +4,7 @@ class AppUser {
   String email;
   String password;
   static List<String> favorites = [];
+  static List<String> recently = [];
 
   AppUser({required this.name, required this.email, required this.password});
   toMap() {

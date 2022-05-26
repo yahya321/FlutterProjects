@@ -26,10 +26,10 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     AppUser.id = FirebaseAuth.instance.currentUser!.uid;
+    _init2Retrieval();
 
     super.initState();
     _initRetrieval();
-    _init2Retrieval();
     _init3Retrieval();
 
     print("user login now ${AppUser.id}");
@@ -54,6 +54,9 @@ class _HomePageState extends State<HomePage> {
   Future<void> _init3Retrieval() async {
     Provider.of<FirestoreProvider>(context, listen: false)
         .getAllListFavoritesUserMeals();
+
+    Provider.of<FirestoreProvider>(context, listen: false)
+        .getAllListRecentlyUserMeals();
   }
 
   TextEditingController searchController = TextEditingController();
@@ -209,7 +212,12 @@ class _HomePageState extends State<HomePage> {
                                       timeCook: retrievedMealFreshList![index]
                                           ['timeCook'],
                                       type: retrievedMealFreshList![index]
-                                          ['type']);
+                                          ['type'],
+                                      directions: retrievedMealFreshList![index]
+                                          ['directions'],
+                                      ingredients:
+                                          retrievedMealFreshList![index]
+                                              ['ingredients']);
 
                                   bool isFavorite =
                                       AppUser.favorites.contains(m.name.trim());
@@ -289,15 +297,12 @@ class _HomePageState extends State<HomePage> {
                                 Meal recommendedMeal = Meal(
                                     id: retrievedmealRecommendedList![index]
                                         ['name'],
-                                    calories:
-                                        retrievedmealRecommendedList![index]
-                                            ['calories'],
-                                    imageName:
-                                        retrievedmealRecommendedList![index]
-                                            ['imageName'],
-                                    isRecommended:
-                                        retrievedmealRecommendedList![index]
-                                            ['isRecommended'],
+                                    calories: retrievedmealRecommendedList![index]
+                                        ['calories'],
+                                    imageName: retrievedmealRecommendedList![index]
+                                        ['imageName'],
+                                    isRecommended: retrievedmealRecommendedList![index]
+                                        ['isRecommended'],
                                     isToday: retrievedmealRecommendedList![index]
                                         ['isToday'],
                                     name: retrievedmealRecommendedList![index]
@@ -306,15 +311,21 @@ class _HomePageState extends State<HomePage> {
                                         ['rate'],
                                     serving: retrievedmealRecommendedList![index]
                                         ['serving'],
-                                    timeCook:
-                                        retrievedmealRecommendedList![index]
-                                            ['timeCook'],
+                                    timeCook: retrievedmealRecommendedList![index]
+                                        ['timeCook'],
                                     type: retrievedmealRecommendedList![index]
-                                        ['type']);
+                                        ['type'],
+                                    directions: retrievedmealRecommendedList![index]
+                                        ['directions'],
+                                    ingredients: retrievedmealRecommendedList![index]
+                                        ['ingredients']);
 
-                                print("iam recocc ${recommendedMeal.name}");
+                                bool isFavorite = AppUser.favorites
+                                    .contains(recommendedMeal.name.trim());
 
-                                return RecommendedCard(meal: recommendedMeal);
+                                return RecommendedCard(
+                                    meal: recommendedMeal,
+                                    isFavorite: isFavorite);
                               });
                         }
                       }

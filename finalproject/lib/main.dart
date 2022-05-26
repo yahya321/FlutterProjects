@@ -53,7 +53,6 @@ class MyApp extends StatelessWidget {
         MyRoutes.loginPage: (context) => LoginPage(),
         MyRoutes.registerPage: (context) => RegisterPage(),
         MyRoutes.homePage: (context) => HomePage(),
-        MyRoutes.mealDescreptionPage: (context) => MealDescreptionPage(),
         MyRoutes.favoritesPage: (context) => FavoritesPage(),
         MyRoutes.recentlyPage: (context) => RecentlyPage(),
         MyRoutes.notificationPage: (context) => NotificationPage(),

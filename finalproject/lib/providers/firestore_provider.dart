@@ -78,6 +78,45 @@ class FirestoreProvider {
     } catch (e) {}
   }
 
+  addRecentlyMealToUser() async {
+    try {
+      firestore.collection('users').doc(AppUser.id).update({
+        'recently': FieldValue.arrayUnion(AppUser.recently)
+      }).whenComplete(() {
+        print('recently created');
+      });
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  getAllListRecentlyUserMeals() async {
+    try {
+      firestore
+          .collection('users')
+          .doc(AppUser.id)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        if (documentSnapshot.exists) {
+          try {
+            List<dynamic> nested =
+                documentSnapshot.get(FieldPath(['recently']));
+
+            for (var i = 0; i < nested.length; i++) {
+              AppUser.recently.add(nested[i].toString().trim());
+            }
+          } on StateError catch (e) {
+            print('No nested field exists!');
+          }
+        } else {
+          print('Document does not exist on the database ${AppUser.id}');
+        }
+      });
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
   getMeal(String id) {
     return FirebaseFirestore.instance
         .collection('meals')
@@ -120,6 +159,7 @@ class FirestoreProvider {
         .get();
     List<Map<String, dynamic>> dataDetails =
         data.docs.map((e) => e.data()).toList();
+
     return dataDetails;
 
     // snapshot.docs.map((docSnapshot) => Meal.fromMap(docSnapshot)).toList();

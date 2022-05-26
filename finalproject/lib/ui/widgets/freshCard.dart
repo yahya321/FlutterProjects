@@ -1,6 +1,7 @@
 import 'package:favorite_button/favorite_button.dart';
 import 'package:finalproject/models/Meal.dart';
 import 'package:finalproject/models/appUser.dart';
+import 'package:finalproject/ui/pages/mealDescreption.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../Utilities/routes.dart';
@@ -26,7 +27,15 @@ class FreshCard extends StatelessWidget {
             radius: 20,
             splashColor: Color.fromARGB(255, 60, 61, 63).withAlpha(30),
             onTap: () {
-              Navigator.pushNamed(context, MyRoutes.mealDescreptionPage);
+              AppUser.recently.addAll([meal.name.trim()]);
+              Provider.of<FirestoreProvider>(context, listen: false)
+                  .addRecentlyMealToUser();
+              Navigator.push<void>(
+                  context,
+                  MaterialPageRoute<void>(
+                      builder: (BuildContext context) => MealDescreptionPage(
+                            meal: meal,
+                          )));
             },
             child: Stack(
               children: [
@@ -48,15 +57,15 @@ class FreshCard extends StatelessWidget {
                           isFavorite: isFavorite,
                           valueChanged: (_isFavorite) {
                             if (_isFavorite) {
-                              AppUser.favorites.addAll([meal.name]);
+                              AppUser.favorites.addAll([meal.name.trim()]);
                               Provider.of<FirestoreProvider>(context,
                                       listen: false)
                                   .addFavoriteMealToUser();
                             } else {
-                              AppUser.favorites.remove(meal.id);
+                              AppUser.favorites.remove(meal.id.trim());
                               Provider.of<FirestoreProvider>(context,
                                       listen: false)
-                                  .deleteFavoriteMealFromUser(meal.id);
+                                  .deleteFavoriteMealFromUser(meal.id.trim());
                             }
                           },
                         ),

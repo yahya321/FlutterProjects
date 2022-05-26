@@ -1,15 +1,18 @@
 import 'package:favorite_button/favorite_button.dart';
+import 'package:finalproject/providers/favorite_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../Utilities/routes.dart';
 import '../../models/Meal.dart';
 import '../../models/appUser.dart';
 import '../../providers/firestore_provider.dart';
+import '../pages/mealDescreption.dart';
 
 class RecommendedCard extends StatelessWidget {
   Meal meal;
+  bool isFavorite;
 
-  RecommendedCard({required this.meal});
+  RecommendedCard({required this.meal, required this.isFavorite});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +25,15 @@ class RecommendedCard extends StatelessWidget {
         child: InkWell(
             splashColor: Colors.blue.withAlpha(30),
             onTap: () {
-              Navigator.pushNamed(context, MyRoutes.mealDescreptionPage);
+              AppUser.recently.addAll([meal.name.trim()]);
+              Provider.of<FirestoreProvider>(context, listen: false)
+                  .addRecentlyMealToUser();
+              Navigator.push<void>(
+                  context,
+                  MaterialPageRoute<void>(
+                      builder: (BuildContext context) => MealDescreptionPage(
+                            meal: meal,
+                          )));
             },
             child: Container(
               width: double.infinity,
@@ -166,18 +177,18 @@ class RecommendedCard extends StatelessWidget {
                           margin: EdgeInsets.only(top: 10),
                           child: FavoriteButton(
                             iconSize: 40.0,
-                            isFavorite: false,
+                            isFavorite: isFavorite,
                             valueChanged: (_isFavorite) {
                               if (_isFavorite) {
-                                AppUser.favorites.addAll([meal.name]);
+                                AppUser.favorites.addAll([meal.name.trim()]);
                                 Provider.of<FirestoreProvider>(context,
                                         listen: false)
                                     .addFavoriteMealToUser();
                               } else {
-                                AppUser.favorites.remove(meal.id);
+                                AppUser.favorites.remove(meal.id.trim());
                                 Provider.of<FirestoreProvider>(context,
                                         listen: false)
-                                    .deleteFavoriteMealFromUser(meal.id);
+                                    .deleteFavoriteMealFromUser(meal.id.trim());
                               }
                             },
                           ),

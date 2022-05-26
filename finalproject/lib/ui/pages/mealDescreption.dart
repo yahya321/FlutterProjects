@@ -1,14 +1,23 @@
+import 'package:favorite_button/favorite_button.dart';
 import 'package:finalproject/ui/widgets/recommendedCard.dart';
 import 'package:flutter/material.dart';
 import 'package:finalproject/ui/widgets/myAppBar.dart';
+import 'package:provider/provider.dart';
 
 import '../../Utilities/routes.dart';
+import '../../models/Meal.dart';
+import '../../models/appUser.dart';
+import '../../providers/firestore_provider.dart';
 
 class MealDescreptionPage extends StatelessWidget {
   TextEditingController searchController = TextEditingController();
+  Meal meal;
+
+  MealDescreptionPage({required this.meal});
 
   @override
   Widget build(BuildContext context) {
+    bool isFavorite = AppUser.favorites.contains(meal.name.trim());
     // TODO: implement build
     return Scaffold(
         backgroundColor: Colors.black,
@@ -21,7 +30,7 @@ class MealDescreptionPage extends StatelessWidget {
               Container(
                 margin: EdgeInsets.only(bottom: 5),
                 child: Text(
-                  'Breakfast',
+                  meal.type.trim(),
                   style: TextStyle(
                     fontSize: 12,
                     color: Color.fromARGB(255, 8, 124, 153),
@@ -36,7 +45,7 @@ class MealDescreptionPage extends StatelessWidget {
                       Container(
                         margin: EdgeInsets.only(bottom: 5),
                         child: Text(
-                          'French Toast with Berries',
+                          meal.name.trim(),
                           style: TextStyle(
                             fontSize: 20,
                             color: Colors.white,
@@ -45,53 +54,61 @@ class MealDescreptionPage extends StatelessWidget {
                       ),
                       Spacer(),
                       Container(
-                          child: IconButton(
-                              onPressed: () {},
-                              icon: IconButton(
-                                icon: const Icon(
-                                  Icons.favorite_outline,
-                                  color: Color.fromARGB(255, 134, 134, 134),
-                                ),
-                                onPressed: () {},
-                              ))),
+                        margin: EdgeInsets.only(bottom: 5),
+                        child: FavoriteButton(
+                          iconSize: 60.0,
+                          isFavorite: isFavorite,
+                          valueChanged: (_isFavorite) {
+                            if (_isFavorite) {
+                              AppUser.favorites.addAll([meal.name.trim()]);
+                              Provider.of<FirestoreProvider>(context,
+                                      listen: false)
+                                  .addFavoriteMealToUser();
+                            } else {
+                              AppUser.favorites.remove(meal.id.trim());
+                              Provider.of<FirestoreProvider>(context,
+                                      listen: false)
+                                  .deleteFavoriteMealFromUser(meal.id.trim());
+                            }
+                          },
+                        ),
+                      ),
                     ],
                   )),
               Container(
                 margin: EdgeInsets.only(bottom: 15),
                 child: Text(
-                  '120 Calories',
+                  meal.calories.trim(),
                   style: TextStyle(
                     fontSize: 12,
                     color: Colors.orange[800],
                   ),
                 ),
               ),
-              Container(
-                  margin: EdgeInsets.only(bottom: 15),
+              SizedBox(
+                width: 160,
+                height: 40,
+                child: Container(
+                  margin: EdgeInsets.only(bottom: 5),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Icon(
-                        Icons.star,
-                        color: Colors.orange[800],
-                      ),
-                      Icon(
-                        Icons.star,
-                        color: Colors.orange[800],
-                      ),
-                      Icon(
-                        Icons.star,
-                        color: Colors.orange[800],
-                      ),
-                      Icon(
-                        Icons.star,
-                        color: Colors.orange[800],
-                      ),
-                      Icon(
-                        Icons.star,
-                        color: Colors.orange[800],
-                      )
+                      for (int i = meal.rate.toInt(); i > 0; i--)
+                        Icon(
+                          Icons.star,
+                          color: Colors.orange[800],
+                          size: 25,
+                        ),
+                      for (int i = 5 - meal.rate.toInt(); i > 0; i--)
+                        Icon(
+                          Icons.star,
+                          color: Color.fromARGB(255, 141, 141, 141),
+                          size: 25,
+                        ),
                     ],
-                  )),
+                  ),
+                ),
+              ),
               Container(
                 width: double.infinity,
                 child: Stack(children: [
@@ -107,7 +124,7 @@ class MealDescreptionPage extends StatelessWidget {
                               color: Color.fromARGB(255, 138, 138, 138),
                             ),
                             Text(
-                              '10 mins',
+                              meal.timeCook.trim(),
                               style: TextStyle(
                                 fontSize: 12,
                                 color: Color.fromARGB(255, 138, 138, 138),
@@ -123,7 +140,7 @@ class MealDescreptionPage extends StatelessWidget {
                               color: Color.fromARGB(255, 138, 138, 138),
                             ),
                             Text(
-                              '1 Serving',
+                              meal.serving.trim(),
                               style: TextStyle(
                                 fontSize: 12,
                                 color: Color.fromARGB(255, 138, 138, 138),
@@ -141,7 +158,7 @@ class MealDescreptionPage extends StatelessWidget {
                               width: 270,
                               child: Image(
                                 image: AssetImage(
-                                    "assets/images/frenshtoast2.png"),
+                                    "assets/images/${meal.imageName.trim()}"),
                                 width: 280,
                                 height: 180,
                               )),
@@ -166,7 +183,7 @@ class MealDescreptionPage extends StatelessWidget {
                 height: 50,
                 margin: EdgeInsets.only(bottom: 20),
                 child: ListView.builder(
-                    itemCount: 9,
+                    itemCount: meal.ingredients.length,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
@@ -176,8 +193,8 @@ class MealDescreptionPage extends StatelessWidget {
                         decoration: BoxDecoration(
                           image: DecorationImage(
                               fit: BoxFit.cover,
-                              image:
-                                  AssetImage('assets/images/restorapry.png')),
+                              image: AssetImage(
+                                  'assets/images/${meal.ingredients[index].toString().trim()}')),
                           borderRadius: BorderRadius.all(Radius.circular(8.0)),
                           color: Colors.redAccent,
                         ),
@@ -200,7 +217,7 @@ class MealDescreptionPage extends StatelessWidget {
                 width: double.infinity,
                 height: 500,
                 child: ListView.builder(
-                    itemCount: 13,
+                    itemCount: meal.directions.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
                           margin: EdgeInsets.only(bottom: 20),
@@ -220,7 +237,7 @@ class MealDescreptionPage extends StatelessWidget {
                                   margin: EdgeInsets.only(left: 10),
                                   width: 350,
                                   child: Text(
-                                    "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut.",
+                                    meal.directions[index].toString().trim(),
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 12,

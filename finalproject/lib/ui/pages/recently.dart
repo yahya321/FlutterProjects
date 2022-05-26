@@ -1,25 +1,52 @@
 import 'package:finalproject/ui/widgets/recommendedCard.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:finalproject/ui/widgets/myAppBar.dart';
+import 'package:provider/provider.dart';
 
 import '../../Utilities/routes.dart';
 import '../../models/Meal.dart';
+import '../../models/appUser.dart';
+import '../../providers/firestore_provider.dart';
 import '../widgets/FreshCard.dart';
 import '../widgets/myDrawer.dart';
 
-class RecentlyPage extends StatelessWidget {
+class RecentlyPage extends StatefulWidget {
+  @override
+  State<RecentlyPage> createState() => _RecentlyPageState();
+}
+
+class _RecentlyPageState extends State<RecentlyPage> {
   TextEditingController searchController = TextEditingController();
-  Meal meal = new Meal(
-      id: '1',
-      calories: '120 Calories',
-      imageName: 'muffins.png',
-      isRecommended: true,
-      isToday: false,
-      name: 'Blueberry Muffins',
-      rate: 3,
-      serving: '1 Serving',
-      timeCook: '10 mins',
-      type: 'Breakfast');
+  Future<List<Map<String, dynamic>>>? mealsList;
+  List<Map<String, dynamic>>? retrievedmealsList;
+  @override
+  void initState() {
+    AppUser.id = FirebaseAuth.instance.currentUser!.uid;
+
+    super.initState();
+    _init2Retrieval();
+    _init3Retrieval();
+  }
+
+  Future<void> _init2Retrieval() async {
+    mealsList = Provider.of<FirestoreProvider>(context, listen: false)
+        .getAllMealsFromFirestore();
+    retrievedmealsList =
+        await Provider.of<FirestoreProvider>(context, listen: false)
+            .getAllMealsFromFirestore();
+  }
+
+  Future<void> _init3Retrieval() async {
+    Provider.of<FirestoreProvider>(context, listen: false)
+        .getAllListFavoritesUserMeals();
+
+    Provider.of<FirestoreProvider>(context, listen: false)
+        .getAllListRecentlyUserMeals();
+  }
+
+ 
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -87,18 +114,89 @@ class RecentlyPage extends StatelessWidget {
                   ])),
           Container(
             width: double.infinity,
-            height: 624,
-            margin: EdgeInsets.only(bottom: 10),
-            child: ListView.builder(
-                itemCount: 20,
-                scrollDirection: Axis.vertical,
-                itemBuilder: (BuildContext context, int index) {
-                  return RecommendedCard(meal: meal);
-                }),
+            height: 634,
+            child: FutureBuilder<List<Map<String, dynamic>>>(
+              future: mealsList,
+              builder: (BuildContext context,
+                  AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
+                // Checking if future is resolved or not
+                if (snapshot.connectionState == ConnectionState.done) {
+                  // If we got an error
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text(
+                        '${snapshot.error} occured ',
+                        style: TextStyle(fontSize: 18, color: Colors.red),
+                      ),
+                    );
+                  } else if (AppUser.recently.isEmpty) {
+                    return Container(
+                      child: Text(
+                        "No Recently Viewed yet",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                        ),
+                      ),
+                    );
+
+                    // if we got our data
+                  } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                    // Extracting data from snapshot object
+                    return ListView.builder(
+                        itemCount: retrievedmealsList!.length,
+                        scrollDirection: Axis.vertical,
+                        itemBuilder: (BuildContext context, int index) {
+                          Meal meal = Meal(
+                            id: retrievedmealsList![index]['name'],
+                            calories: retrievedmealsList![index]['calories'],
+                            imageName: retrievedmealsList![index]['imageName'],
+                            isRecommended: retrievedmealsList![index]
+                                ['isRecommended'],
+                            isToday: retrievedmealsList![index]['isToday'],
+                            name: retrievedmealsList![index]['name'],
+                            rate: retrievedmealsList![index]['rate'],
+                            serving: retrievedmealsList![index]['serving'],
+                            timeCook: retrievedmealsList![index]['timeCook'],
+                            type: retrievedmealsList![index]['type'],
+                            directions: retrievedmealsList![index]
+                                ['directions'],
+                            ingredients: retrievedmealsList![index]
+                                ['ingredients'],
+                          );
+
+                          print("iam recocc ${meal.name}");
+
+                          for (int i = AppUser.recently.length - 1;
+                              i >= 0;
+                              i--) {
+                            if (AppUser.recently[i] == meal.name) {
+                              if (AppUser.favorites
+                                  .contains(meal.name.trim())) {
+                                return RecommendedCard(
+                                    meal: meal, isFavorite: true);
+                              } else {
+                                return RecommendedCard(
+                                    meal: meal, isFavorite: false);
+                              }
+                            }
+                          }
+                          return SizedBox.shrink();
+                        });
+                  }
+                }
+
+                // Displaying LoadingSpinner to indicate waiting state
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.orange[800],
+                  ),
+                );
+              },
+            ),
           )
         ]),
       ),
     );
-    ;
   }
 }

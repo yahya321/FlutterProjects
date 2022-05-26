@@ -8,6 +8,8 @@ class Meal {
   bool isRecommended;
   bool isToday;
   num rate;
+  List<dynamic> directions;
+  List<dynamic> ingredients;
   String serving;
   String timeCook;
   String calories;
@@ -18,6 +20,8 @@ class Meal {
       required this.isRecommended,
       required this.isToday,
       required this.name,
+      required this.directions,
+      required this.ingredients,
       required this.rate,
       required this.serving,
       required this.timeCook,
