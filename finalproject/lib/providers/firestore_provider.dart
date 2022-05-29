@@ -112,7 +112,6 @@ class FirestoreProvider {
             for (int i = nested.length - 1; i >= 0; i--) {
               if (!AppUser.recently.contains(nested[i].toString().trim())) {
                 AppUser.recently.add(nested[i].toString().trim());
-                print('iam fireStore List $i ${AppUser.recently.toString()}');
               }
             }
           } on StateError catch (e) {

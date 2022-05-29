@@ -154,7 +154,6 @@ class _FavoritesPageState extends State<FavoritesPage> {
                                 ['ingredients'],
                           );
 
-                          print("iam recocc ${meal.name}");
 
                           if (AppUser.favorites.contains(meal.name.trim())) {
                             return RecommendedCard(

@@ -142,7 +142,7 @@ class _RecentlyPageState extends State<RecentlyPage> {
                   } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
                     // Extracting data from snapshot object
                     return ListView.builder(
-                        itemCount: AppUser.recently.length,
+                        itemCount: retrievedmealsList!.length,
                         scrollDirection: Axis.vertical,
                         itemBuilder: (BuildContext context, int index) {
                           Meal meal = Meal(
@@ -163,12 +163,8 @@ class _RecentlyPageState extends State<RecentlyPage> {
                                 ['ingredients'],
                           );
 
-                          print(
-                              "iam recent List ${AppUser.recently.toString()}");
-
                           for (int i = 0; i < AppUser.recently.length; i++) {
                             if (AppUser.recently.contains(meal.name)) {
-                              print('my name ${AppUser.recently[i]}');
                               if (AppUser.favorites
                                   .contains(meal.name.trim())) {
                                 return RecommendedCard(

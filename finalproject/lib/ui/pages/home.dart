@@ -32,7 +32,6 @@ class _HomePageState extends State<HomePage> {
     _initRetrieval();
     _init3Retrieval();
 
-    print("user login now ${AppUser.id}");
   }
 
   Future<void> _initRetrieval() async {
