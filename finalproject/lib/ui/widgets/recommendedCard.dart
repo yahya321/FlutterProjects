@@ -25,9 +25,12 @@ class RecommendedCard extends StatelessWidget {
         child: InkWell(
             splashColor: Colors.blue.withAlpha(30),
             onTap: () {
-              AppUser.recently.addAll([meal.name.trim()]);
-              Provider.of<FirestoreProvider>(context, listen: false)
-                  .addRecentlyMealToUser();
+              if (!AppUser.recently.contains(meal.name.trim())) {
+                AppUser.recently.add(meal.name.trim());
+                Provider.of<FirestoreProvider>(context, listen: false)
+                    .addRecentlyMealToUser();
+              }
+
               Navigator.push<void>(
                   context,
                   MaterialPageRoute<void>(

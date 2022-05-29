@@ -113,7 +113,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                   ])),
           Container(
             width: double.infinity,
-            height: 634,
+            height: 633,
             child: FutureBuilder<List<Map<String, dynamic>>>(
               future: mealsList,
               builder: (BuildContext context,

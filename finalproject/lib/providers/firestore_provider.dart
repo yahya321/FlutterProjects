@@ -53,6 +53,10 @@ class FirestoreProvider {
             List<dynamic> nested =
                 documentSnapshot.get(FieldPath(['favorites']));
 
+            for (int i = 0; i < AppUser.favorites.length; i++) {
+              AppUser.favorites.removeAt(i);
+            }
+
             for (var i = 0; i < nested.length; i++) {
               AppUser.favorites.add(nested[i].toString().trim());
             }
@@ -90,7 +94,7 @@ class FirestoreProvider {
     }
   }
 
-  getAllListRecentlyUserMeals() async {
+  getAllListRecentlyUserMeals() {
     try {
       firestore
           .collection('users')
@@ -101,9 +105,15 @@ class FirestoreProvider {
           try {
             List<dynamic> nested =
                 documentSnapshot.get(FieldPath(['recently']));
+            for (int i = 0; i < AppUser.recently.length; i++) {
+              AppUser.recently.removeAt(i);
+            }
 
-            for (var i = 0; i < nested.length; i++) {
-              AppUser.recently.add(nested[i].toString().trim());
+            for (int i = nested.length - 1; i >= 0; i--) {
+              if (!AppUser.recently.contains(nested[i].toString().trim())) {
+                AppUser.recently.add(nested[i].toString().trim());
+                print('iam fireStore List $i ${AppUser.recently.toString()}');
+              }
             }
           } on StateError catch (e) {
             print('No nested field exists!');
@@ -117,16 +127,12 @@ class FirestoreProvider {
     }
   }
 
-  getMeal(String id) {
-    return FirebaseFirestore.instance
-        .collection('meals')
-        .doc(id)
-        .get()
-        .then((DocumentSnapshot documentSnapshot) {
-      if (documentSnapshot.exists) {
-        print(documentSnapshot.get('name'));
-      }
-    });
+  Future<DocumentSnapshot<Map<String, dynamic>>>? getOneMealFromFirestore(
+      String id) async {
+    DocumentSnapshot<Map<String, dynamic>> doc =
+        await firestore.collection('meals').doc(id).get();
+
+    return doc;
   }
 
   Future<List<Map<String, dynamic>>> getAllMealsFromFirestore() async {

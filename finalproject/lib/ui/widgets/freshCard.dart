@@ -27,9 +27,12 @@ class FreshCard extends StatelessWidget {
             radius: 20,
             splashColor: Color.fromARGB(255, 60, 61, 63).withAlpha(30),
             onTap: () {
-              AppUser.recently.addAll([meal.name.trim()]);
-              Provider.of<FirestoreProvider>(context, listen: false)
-                  .addRecentlyMealToUser();
+              if (!AppUser.recently.contains(meal.name.trim())) {
+                AppUser.recently.add(meal.name.trim());
+                Provider.of<FirestoreProvider>(context, listen: false)
+                    .addRecentlyMealToUser();
+              }
+
               Navigator.push<void>(
                   context,
                   MaterialPageRoute<void>(

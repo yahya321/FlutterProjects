@@ -52,11 +52,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _init3Retrieval() async {
+    
     Provider.of<FirestoreProvider>(context, listen: false)
         .getAllListFavoritesUserMeals();
-
-    Provider.of<FirestoreProvider>(context, listen: false)
-        .getAllListRecentlyUserMeals();
   }
 
   TextEditingController searchController = TextEditingController();

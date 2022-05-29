@@ -45,8 +45,6 @@ class _RecentlyPageState extends State<RecentlyPage> {
         .getAllListRecentlyUserMeals();
   }
 
- 
-
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -114,7 +112,7 @@ class _RecentlyPageState extends State<RecentlyPage> {
                   ])),
           Container(
             width: double.infinity,
-            height: 634,
+            height: 633,
             child: FutureBuilder<List<Map<String, dynamic>>>(
               future: mealsList,
               builder: (BuildContext context,
@@ -144,7 +142,7 @@ class _RecentlyPageState extends State<RecentlyPage> {
                   } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
                     // Extracting data from snapshot object
                     return ListView.builder(
-                        itemCount: retrievedmealsList!.length,
+                        itemCount: AppUser.recently.length,
                         scrollDirection: Axis.vertical,
                         itemBuilder: (BuildContext context, int index) {
                           Meal meal = Meal(
@@ -165,12 +163,12 @@ class _RecentlyPageState extends State<RecentlyPage> {
                                 ['ingredients'],
                           );
 
-                          print("iam recocc ${meal.name}");
+                          print(
+                              "iam recent List ${AppUser.recently.toString()}");
 
-                          for (int i = AppUser.recently.length - 1;
-                              i >= 0;
-                              i--) {
-                            if (AppUser.recently[i] == meal.name) {
+                          for (int i = 0; i < AppUser.recently.length; i++) {
+                            if (AppUser.recently.contains(meal.name)) {
+                              print('my name ${AppUser.recently[i]}');
                               if (AppUser.favorites
                                   .contains(meal.name.trim())) {
                                 return RecommendedCard(

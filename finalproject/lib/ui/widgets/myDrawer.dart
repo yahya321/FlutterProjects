@@ -163,6 +163,7 @@ class DrawerScreen extends StatelessWidget {
               FirebaseAuth.instance.signOut();
               Navigator.popUntil(
                   context, ModalRoute.withName(MyRoutes.splashPage));
+              Navigator.pushNamed(context, MyRoutes.splashPage);
               showDialog<String>(
                   context: context,
                   builder: (BuildContext context) => AuthAlert(
